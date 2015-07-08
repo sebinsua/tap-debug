@@ -15,7 +15,7 @@ function getFormattedAccount(id) {
 
   return getAccount(id).
          tap(see('account#get responded with: ')).
-         then(format)
+         then(format).
          tap(see('#getFormattedAccount responded with: '));  
 }
 
