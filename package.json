@@ -1,0 +1,25 @@
+{
+  "name": "tap-debug",
+  "version": "0.0.1",
+  "description": "Debug/trace input to this function. For use with the tap() method of promises or functional programming pipelines.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/sebinsua/tap-debug.git"
+  },
+  "keywords": [
+    "debug",
+    "trace",
+    "functional",
+    "promises"
+  ],
+  "author": "Seb Insua <me@sebinsua.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sebinsua/tap-debug/issues"
+  },
+  "homepage": "https://github.com/sebinsua/tap-debug#readme"
+}
