@@ -1,6 +1,6 @@
 var debug = require('./debug');
 
-var DEFAULT_LOG = console.log.bind(console.log);
+var DEFAULT_LOG = console.log.bind(console);
 
 function isString(object) {
   return typeof object === 'string';
