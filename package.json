@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/sebinsua/tap-debug/issues"
   },
-  "homepage": "https://github.com/sebinsua/tap-debug#readme"
+  "homepage": "https://github.com/sebinsua/tap-debug#readme",
+  "peerDependencies": {
+    "debug": "2.x"
+  }
 }
