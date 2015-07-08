@@ -24,7 +24,7 @@ function getFormattedAccount(id) {
 ## TODO
 
 - [ ] Write some tests.
-- [ ] String interpolation on the prefix message. Consider use and potential expansion of [es6-templates](https://github.com/esnext/es6-templates). Consider support for [emojis](https://github.com/omnidan/node-emoji).
+- [ ] String interpolation on the prefix message. Consider use and potential expansion of [es6-templates](https://github.com/esnext/es6-templates) or [this library](https://github.com/medikoo/es6-template-strings). Consider support for [emojis](https://github.com/omnidan/node-emoji).
 - [ ] Color in the the values that are logged, using a similar approach to the one used within [ramda-debug](https://github.com/sebinsua/ramda-debug).
 - [ ] Consider the influence of the aforementioned library. Is there any crossover?
 - [ ] Quickly and easily switch on/off the logging of the object passed in.
