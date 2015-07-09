@@ -20,4 +20,4 @@ function checkIceboxForPlums() {
 }
 ```
 
-*TODO: Image of the example output.*
+![Example](http://i.imgur.com/WkG5T1N.png)
