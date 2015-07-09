@@ -30,22 +30,31 @@ function stringify(object) {
   return objectString;
 }
 
-function onObject(debugFn, prefixMessage, separator) {
+function onObject(debugFn, prefixMessage, separator, options) {
   separator = separator || '';
   return function _onObject(object) {
-    var objectString = stringify(object);
-    var message = [prefixMessage, objectString].filter(identity).join(separator);
+    var message;
+
+    var messageComponents = [prefixMessage];
+    if (options.stringifyObjects !== false) {
+      var objectString = stringify(object);
+      messageComponents.push(objectString);
+    }
+
+    message = messageComponents.filter(identity).join(separator);
     debugFn(message);
   };
 }
 
-function debugObjects(debugFn) {
+function debugObjects(debugFn, options) {
   return function _debugObjects(prefixMessage, separator) {
-    return tap(onObject(debugFn, prefixMessage, separator));
+    return tap(onObject(debugFn, prefixMessage, separator, options));
   };
 }
 
-function generateTapDebug(debugFn) {
+function generateTapDebug(debugFn, options) {
+  options = options || {};
+
   if (isString(debugFn)) {
     if (debug !== false) {
       var namespace = debugFn;
@@ -57,7 +66,7 @@ function generateTapDebug(debugFn) {
     debugFn = debugFn || DEFAULT_LOG;
   }
 
-  var tapDebug = debugObjects(debugFn);
+  var tapDebug = debugObjects(debugFn, options);
   return tapDebug;
 }
 

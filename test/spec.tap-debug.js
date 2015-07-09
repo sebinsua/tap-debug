@@ -57,6 +57,22 @@ describe('tap-debug module', function () {
         spy.should.have.been.calledWith(prefixMessage + separator + JSON.stringify(obj, null, 2));
       });
 
+      it('should be able to disable stringification of the objects passed in', function () {
+        var disabledStringify = generateTapDebug(spy, { stringifyObjects: false });
+
+        var prefixMessage = 'the-prefix-message';
+        var obj = {
+          a: 1,
+          b: 2,
+          c: 3
+        };
+
+        var see = disabledStringify(prefixMessage);
+        see(obj);
+
+        spy.should.have.been.calledWith(prefixMessage);
+      });
+
     });
 
   });
