@@ -2,7 +2,7 @@
 
 var debug = require('./debug');
 
-var DEFAULT_LOG = console.log.bind(console.log);
+var DEFAULT_LOG = console.log.bind(console);
 
 function isString(object) {
   return typeof object === 'string';
@@ -12,9 +12,11 @@ function identity(object) {
   return !!object;
 }
 
-function tap(interceptor, object) {
-  interceptor(object);
-  return object;
+function tap(interceptor) {
+  return function _tap(object) {
+    interceptor(object);
+    return object;
+  };
 }
 
 function stringify(object) {
@@ -30,7 +32,7 @@ function stringify(object) {
 
 function onObject(debugFn, prefixMessage, separator) {
   separator = separator || '';
-  return function (object) {
+  return function _onObject(object) {
     var objectString = stringify(object);
     var message = [prefixMessage, objectString].filter(identity).join(separator);
     debugFn(message);
@@ -38,7 +40,7 @@ function onObject(debugFn, prefixMessage, separator) {
 }
 
 function debugObjects(debugFn) {
-  return function (prefixMessage, separator) {
+  return function _debugObjects(prefixMessage, separator) {
     return tap(onObject(debugFn, prefixMessage, separator));
   };
 }
