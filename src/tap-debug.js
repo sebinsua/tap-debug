@@ -16,10 +16,13 @@ function tap(interceptor) {
   };
 }
 
-function onObject(debugFn, message, separator, options) {
+function onObject(debugFn, rawMessage, separator, options) {
   separator = separator || '';
 
-  var compiledMessage = compile(message);
+  var compiledMessage = compile(rawMessage, {
+    emojify: options.emojify,
+    colorify: options.colorify
+  });
   return function _onObject(object) {
     var message = compiledMessage.resolve(object, {
       stringifyObjects: options.stringifyObjects,

@@ -12,8 +12,8 @@ var stringify = require('./stringify');
 
 var DEFAULT_SEPARATOR = ': ';
 
-function CompiledMessage(message) {
-  this.compiledMessage = this.compile(message);
+function CompiledMessage(message, options) {
+  this.compiledMessage = this.compile(message, options);
 }
 
 CompiledMessage.prototype.compile = function (message, options) {

@@ -26,6 +26,6 @@ checkIceboxForPlums().then(function (hasPlums) {
     see('Forgive me ' +
     'they were delicious ' +
     'so sweet ' +
-    'and so cold');
+    'and so cold')();
   }
 });

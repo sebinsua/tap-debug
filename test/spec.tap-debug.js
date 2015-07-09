@@ -13,7 +13,7 @@ describe('tap-debug module', function () {
     var tapDebug, spy;
     beforeEach(function () {
       spy = sinon.spy();
-      tapDebug = generateTapDebug(spy);
+      tapDebug = generateTapDebug(spy, { colorify: false });
     });
 
     it('should be a function', function () {
@@ -59,7 +59,7 @@ describe('tap-debug module', function () {
         var see = tapDebug(prefixMessage);
         see();
 
-        spy.should.have.been.calledWith('have a 🍺');
+        spy.should.have.been.calledWith('have a 🍺 ');
       });
 
       it('should be able to enable stringification and log some data prefixed by a message', function () {
