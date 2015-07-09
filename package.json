@@ -1,6 +1,6 @@
 {
   "name": "tap-debug",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Debug/trace output of a function. For use with the tap() method of promises and functional programming pipelines.",
   "main": "index.js",
   "scripts": {
