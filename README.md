@@ -23,8 +23,8 @@ function getFormattedAccount(id) {
 
 ## TODO
 
-- [ ] Write some tests.
+- [x] Write some tests.
+- [ ] Publish.
 - [ ] String interpolation on the prefix message.
 - [ ] Color in the the messages that are logged.
 - [ ] Quickly and easily switch on/off the logging of the object passed in.
-- [ ] Publish.
