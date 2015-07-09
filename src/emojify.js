@@ -9,9 +9,14 @@ try {
 
 var EMOJI_REGEX = /(:[a-z_]+:)/g;
 
+var SPACE = ' ';
+
 function emojify(str) {
   if (str && emojis !== false) {
-    var replacer = emojis.get.bind(emojis);
+    var emojifier = emojis.get.bind(emojis);
+    var replacer = function (k) {
+      return emojifier(k) + SPACE;
+    };
     str = str.replace(EMOJI_REGEX, replacer);
   }
   return str;

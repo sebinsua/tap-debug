@@ -16,10 +16,10 @@ function tap(interceptor) {
   };
 }
 
-function onObject(debugFn, prefixMessage, separator, options) {
+function onObject(debugFn, message, separator, options) {
   separator = separator || '';
 
-  var compiledMessage = compile(prefixMessage);
+  var compiledMessage = compile(message);
   return function _onObject(object) {
     var message = compiledMessage.resolve(object, {
       stringifyObjects: options.stringifyObjects,
@@ -30,8 +30,8 @@ function onObject(debugFn, prefixMessage, separator, options) {
 }
 
 function debugObjects(debugFn, options) {
-  return function _debugObjects(prefixMessage, separator) {
-    return tap(onObject(debugFn, prefixMessage, separator, options));
+  return function _debugObjects(message, separator) {
+    return tap(onObject(debugFn, message, separator, options));
   };
 }
 

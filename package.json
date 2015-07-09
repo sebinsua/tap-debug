@@ -36,6 +36,7 @@
   "dependencies": {
     "@ccheever/crayon": "^5.0.0",
     "es6-template-strings": "^1.0.0",
+    "pluralize": "^1.1.2",
     "text-hex": "0.0.0",
     "util-inspect": "^0.1.8"
   },

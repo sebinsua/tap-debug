@@ -7,19 +7,32 @@ var utils = require('./utils');
 var identity = utils.identity;
 
 var emojify = require('./emojify');
+var colorify = require('./colorify');
 var stringify = require('./stringify');
 
 var DEFAULT_SEPARATOR = ': ';
 
 function CompiledMessage(message) {
-  this.compiledMessage = compile(message);
+  this.compiledMessage = this.compile(message);
 }
+
+CompiledMessage.prototype.compile = function (message, options) {
+  options = options || {};
+  if (options.emojify !== false) {
+    message = emojify(message);
+  }
+  if (options.colorify !== false) {
+    message = colorify(message);
+  }
+
+  return compile(message);
+};
 
 CompiledMessage.prototype.resolve = function (object, options) {
   options = options || {};
 
   var compiledMessage = this.compiledMessage;
-  var resolvedMessage = emojify(resolve(compiledMessage, object));
+  var resolvedMessage = resolve(compiledMessage, object);
 
   var messageComponents = [
     resolvedMessage
@@ -30,9 +43,11 @@ CompiledMessage.prototype.resolve = function (object, options) {
     messageComponents.push(objectString);
   }
 
-  return messageComponents.filter(identity).join(options.separator || DEFAULT_SEPARATOR);
+  return messageComponents.
+         filter(identity).
+         join(options.separator || DEFAULT_SEPARATOR);
 };
 
-module.exports = function compileMessage (message) {
-  return new CompiledMessage(message);
+module.exports = function compileMessage(message, options) {
+  return new CompiledMessage(message, options);
 };
