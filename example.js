@@ -23,9 +23,9 @@ function checkIceboxForPlums() {
 
 checkIceboxForPlums().then(function (hasPlums) {
   if (!hasPlums) {
-    see('Forgive me ' +
+    debug('Forgive me ' +
     'they were delicious ' +
     'so sweet ' +
-    'and so cold')();
+    'and so cold');
   }
 });
