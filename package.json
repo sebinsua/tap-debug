@@ -1,10 +1,12 @@
 {
   "name": "tap-debug",
   "version": "0.0.1",
-  "description": "Debug/trace input to this function. For use with the tap() method of promises or functional programming pipelines.",
+  "description": "Debug/trace output of a function. For use with the tap() method of promises and functional programming pipelines.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run lint && npm run unit",
+    "lint": "./node_modules/.bin/eslint .",
+    "unit": "./node_modules/.bin/mocha test/spec.*.js --require test/helpers.js"
   },
   "repository": {
     "type": "git",
@@ -12,8 +14,13 @@
   },
   "keywords": [
     "debug",
+    "debugging",
     "trace",
     "functional",
+    "function",
+    "look",
+    "see",
+    "execution",
     "promises"
   ],
   "author": "Seb Insua <me@sebinsua.com>",
@@ -24,5 +31,15 @@
   "homepage": "https://github.com/sebinsua/tap-debug#readme",
   "peerDependencies": {
     "debug": "2.x"
+  },
+  "dependencies": {
+    "@ccheever/crayon": "^5.0.0",
+    "text-hex": "0.0.0",
+    "util-inspect": "^0.1.8"
+  },
+  "devDependencies": {
+    "chai": "^2.3.0",
+    "eslint": "^0.21.1",
+    "mocha": "^2.2.5"
   }
 }

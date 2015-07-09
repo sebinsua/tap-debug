@@ -1,3 +1,5 @@
+'use strict';
+
 var debug = require('./debug');
 
 var DEFAULT_LOG = console.log.bind(console.log);
@@ -20,7 +22,7 @@ function stringify(object) {
   if (isString(object)) {
     objectString = object;
   } else {
-    objectString = JSON.stringify(object, null, 2)
+    objectString = JSON.stringify(object, null, 2);
   }
 
   return objectString;
@@ -45,7 +47,7 @@ function generateTapDebug(debugFn) {
   if (isString(debugFn)) {
     if (debug !== false) {
       var namespace = debugFn;
-      debugFn = debug(debugFn)
+      debugFn = debug(namespace);
     } else {
       debugFn = DEFAULT_LOG;
     }

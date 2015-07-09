@@ -1,3 +1,5 @@
+'use strict';
+
 try {
   module.exports = require('debug');
 } catch (_) {
