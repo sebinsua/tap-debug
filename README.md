@@ -1,5 +1,5 @@
-# tap-debug
-:beer: Debug on tap.
+# tap-debug [![Build Status](https://travis-ci.org/sebinsua/tap-debug.png)](https://travis-ci.org/sebinsua/tap-debug) [![npm version](https://badge.fury.io/js/tap-debug.svg)](https://www.npmjs.com/package/tap-debug)
+> :beer: Debug on tap.
 
 ```javascript
 var debug = require('debug')('app:feature');
