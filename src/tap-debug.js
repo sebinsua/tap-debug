@@ -1,16 +1,13 @@
 'use strict';
 
 var debug = require('./debug');
+var compile = require('./message');
+
+var utils = require('./utils');
+
+var isString = utils.isString;
 
 var DEFAULT_LOG = console.log.bind(console);
-
-function isString(object) {
-  return typeof object === 'string';
-}
-
-function identity(object) {
-  return !!object;
-}
 
 function tap(interceptor) {
   return function _tap(object) {
@@ -19,29 +16,15 @@ function tap(interceptor) {
   };
 }
 
-function stringify(object) {
-  var objectString;
-  if (isString(object)) {
-    objectString = object;
-  } else {
-    objectString = JSON.stringify(object, null, 2);
-  }
-
-  return objectString;
-}
-
 function onObject(debugFn, prefixMessage, separator, options) {
   separator = separator || '';
+
+  var compiledMessage = compile(prefixMessage);
   return function _onObject(object) {
-    var message;
-
-    var messageComponents = [prefixMessage];
-    if (options.stringifyObjects !== false) {
-      var objectString = stringify(object);
-      messageComponents.push(objectString);
-    }
-
-    message = messageComponents.filter(identity).join(separator);
+    var message = compiledMessage.resolve(object, {
+      stringifyObjects: options.stringifyObjects,
+      separator: separator
+    });
     debugFn(message);
   };
 }

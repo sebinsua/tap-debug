@@ -28,49 +28,71 @@ describe('tap-debug module', function () {
         see.should.be.a.function;
       });
 
-      it('should log some data prefixed by a message', function () {
-        var prefixMessage = 'the-prefix-message';
+      it('should log a message', function () {
+        var message = 'the-prefix-message';
         var obj = {
           a: 1,
           b: 2,
           c: 3
         };
 
-        var see = tapDebug(prefixMessage);
+        var see = tapDebug(message);
         see(obj);
 
-        spy.should.have.been.calledWith(prefixMessage + JSON.stringify(obj, null, 2));
+        spy.should.have.been.calledWith(message);
       });
 
-      it('should log some data prefixed by a message and separator', function () {
+      it('should support variables in messages', function () {
+        var message = 'there are ${beers} beers';
+
+        var see = tapDebug(message);
+        see({
+          beers: 5
+        });
+
+        spy.should.have.been.calledWith('there are 5 beers');
+      });
+
+      it('should support emojis in messages', function () {
+        var prefixMessage = 'have a :beer:';
+
+        var see = tapDebug(prefixMessage);
+        see();
+
+        spy.should.have.been.calledWith('have a 🍺');
+      });
+
+      it('should be able to enable stringification and log some data prefixed by a message', function () {
+        var enabledStringify = generateTapDebug(spy, { stringifyObjects: true });
+
         var prefixMessage = 'the-prefix-message';
-        var separator = ' : ';
         var obj = {
           a: 1,
           b: 2,
           c: 3
         };
 
-        var see = tapDebug(prefixMessage, separator);
+        var see = enabledStringify(prefixMessage);
+        see(obj);
+
+        spy.should.have.been.calledWith(prefixMessage + ': ' + JSON.stringify(obj, null, 2));
+      });
+
+      it('should be able to enable stringification and log some data prefixed by a message and separator', function () {
+        var enabledStringify = generateTapDebug(spy, { stringifyObjects: true });
+
+        var prefixMessage = 'the-prefix-message';
+        var separator = ' - ';
+        var obj = {
+          a: 1,
+          b: 2,
+          c: 3
+        };
+
+        var see = enabledStringify(prefixMessage, separator);
         see(obj);
 
         spy.should.have.been.calledWith(prefixMessage + separator + JSON.stringify(obj, null, 2));
-      });
-
-      it('should be able to disable stringification of the objects passed in', function () {
-        var disabledStringify = generateTapDebug(spy, { stringifyObjects: false });
-
-        var prefixMessage = 'the-prefix-message';
-        var obj = {
-          a: 1,
-          b: 2,
-          c: 3
-        };
-
-        var see = disabledStringify(prefixMessage);
-        see(obj);
-
-        spy.should.have.been.calledWith(prefixMessage);
       });
 
     });
