@@ -2,6 +2,8 @@
 
 var generateTapDebug = require('..');
 
+var stringify = require('../src/stringify');
+
 describe('tap-debug module', function () {
 
   it('should be a function', function () {
@@ -75,7 +77,7 @@ describe('tap-debug module', function () {
         var see = enabledStringify(prefixMessage);
         see(obj);
 
-        spy.should.have.been.calledWith(prefixMessage + ': ' + JSON.stringify(obj, null, 2));
+        spy.should.have.been.calledWith(prefixMessage + ': ' + stringify(obj));
       });
 
       it('should enable stringification if no prefixMessage is passed in', function () {
@@ -90,7 +92,7 @@ describe('tap-debug module', function () {
         var see = noStringify();
         see(obj);
 
-        spy.should.have.been.calledWith(JSON.stringify(obj, null, 2));
+        spy.should.have.been.calledWith(stringify(obj));
       });
 
       it('should be able to enable stringification and log some data prefixed by a message and separator', function () {
@@ -107,7 +109,7 @@ describe('tap-debug module', function () {
         var see = enabledStringify(prefixMessage, { stringifyObjectsSeparator: separator });
         see(obj);
 
-        spy.should.have.been.calledWith(prefixMessage + separator + JSON.stringify(obj, null, 2));
+        spy.should.have.been.calledWith(prefixMessage + separator + stringify(obj));
       });
 
     });
