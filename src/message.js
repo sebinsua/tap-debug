@@ -5,6 +5,7 @@ var compile = require('es6-template-strings/compile'),
 
 var utils = require('./utils');
 var identity = utils.identity;
+var extend = utils.extend;
 
 var emojify = require('./emojify');
 var colorify = require('./colorify');
@@ -35,7 +36,7 @@ CompiledMessage.prototype.resolve = function (object, options) {
   var messageComponents = [];
 
   var compiledMessage = this.compiledMessage;
-  var resolvedMessage = resolve(compiledMessage, object);
+  var resolvedMessage = resolve(compiledMessage, extend(object, options.ctx || {}));
   if (resolvedMessage !== '') {
     messageComponents.push(resolvedMessage);
   }
