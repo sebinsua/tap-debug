@@ -17,6 +17,7 @@ function CompiledMessage(message, options) {
 }
 
 CompiledMessage.prototype.compile = function (message, options) {
+  message = message || '';
   options = options || {};
   if (options.emojify !== false) {
     message = emojify(message);
@@ -31,12 +32,13 @@ CompiledMessage.prototype.compile = function (message, options) {
 CompiledMessage.prototype.resolve = function (object, options) {
   options = options || {};
 
+  var messageComponents = [];
+
   var compiledMessage = this.compiledMessage;
   var resolvedMessage = resolve(compiledMessage, object);
-
-  var messageComponents = [
-    resolvedMessage
-  ];
+  if (resolvedMessage !== '') {
+    messageComponents.push(resolvedMessage);
+  }
 
   if (options.stringifyObjects === true) {
     var objectString = stringify(object);

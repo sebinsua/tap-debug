@@ -34,6 +34,9 @@ function onObject(debugFn, rawMessage, options) {
 function debugObjects(debugFn, options) {
   return function _debugObjects(message, onCallOptions) {
     onCallOptions = onCallOptions || {};
+    if (typeof message === 'undefined') {
+      onCallOptions.stringifyObjects = true;
+    }
     return tap(onObject(debugFn, message, extend(options, onCallOptions)));
   };
 }

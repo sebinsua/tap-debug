@@ -78,6 +78,21 @@ describe('tap-debug module', function () {
         spy.should.have.been.calledWith(prefixMessage + ': ' + JSON.stringify(obj, null, 2));
       });
 
+      it('should enable stringification if no prefixMessage is passed in', function () {
+        var noStringify = generateTapDebug(spy);
+
+        var obj = {
+          a: 1,
+          b: 2,
+          c: 3
+        };
+
+        var see = noStringify();
+        see(obj);
+
+        spy.should.have.been.calledWith(JSON.stringify(obj, null, 2));
+      });
+
       it('should be able to enable stringification and log some data prefixed by a message and separator', function () {
         var enabledStringify = generateTapDebug(spy, { stringifyObjects: true });
 
