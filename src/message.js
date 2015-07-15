@@ -45,7 +45,7 @@ CompiledMessage.prototype.resolve = function (object, options) {
 
   return messageComponents.
          filter(identity).
-         join(options.separator || DEFAULT_SEPARATOR);
+         join(options.stringifyObjectsSeparator || DEFAULT_SEPARATOR);
 };
 
 module.exports = function compileMessage(message, options) {

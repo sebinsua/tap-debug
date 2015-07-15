@@ -89,7 +89,7 @@ describe('tap-debug module', function () {
           c: 3
         };
 
-        var see = enabledStringify(prefixMessage, separator);
+        var see = enabledStringify(prefixMessage, { stringifyObjectsSeparator: separator });
         see(obj);
 
         spy.should.have.been.calledWith(prefixMessage + separator + JSON.stringify(obj, null, 2));

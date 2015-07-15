@@ -6,6 +6,7 @@ var compile = require('./message');
 var utils = require('./utils');
 
 var isString = utils.isString;
+var extend = utils.extend;
 
 var DEFAULT_LOG = console.log.bind(console);
 
@@ -16,9 +17,7 @@ function tap(interceptor) {
   };
 }
 
-function onObject(debugFn, rawMessage, separator, options) {
-  separator = separator || '';
-
+function onObject(debugFn, rawMessage, options) {
   var compiledMessage = compile(rawMessage, {
     emojify: options.emojify,
     colorify: options.colorify
@@ -26,15 +25,16 @@ function onObject(debugFn, rawMessage, separator, options) {
   return function _onObject(object) {
     var message = compiledMessage.resolve(object, {
       stringifyObjects: options.stringifyObjects,
-      separator: separator
+      stringifyObjectsSeparator: options.stringifyObjectsSeparator
     });
     debugFn(message);
   };
 }
 
 function debugObjects(debugFn, options) {
-  return function _debugObjects(message, separator) {
-    return tap(onObject(debugFn, message, separator, options));
+  return function _debugObjects(message, onCallOptions) {
+    onCallOptions = onCallOptions || {};
+    return tap(onObject(debugFn, message, extend(options, onCallOptions)));
   };
 }
 
