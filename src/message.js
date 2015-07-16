@@ -4,6 +4,7 @@ var compile = require('es6-template-strings/compile'),
     resolve = require('es6-template-strings/resolve-to-string');
 
 var utils = require('./utils');
+var isArray = utils.isArray;
 var identity = utils.identity;
 var extend = utils.extend;
 
@@ -36,7 +37,7 @@ CompiledMessage.prototype.resolve = function (object, options) {
   var messageComponents = [];
 
   var compiledMessage = this.compiledMessage;
-  var resolvedMessage = resolve(compiledMessage, extend(object, options.ctx || {}));
+  var resolvedMessage = resolve(compiledMessage, extend(isArray(object) ? {} : object, options.ctx || {}));
   if (resolvedMessage !== '') {
     messageComponents.push(resolvedMessage);
   }

@@ -22,5 +22,6 @@ function extend(destination, source) {
 }
 
 module.exports.isString = isString;
+module.exports.isArray = Array.isArray;
 module.exports.identity = identity;
 module.exports.extend = extend;

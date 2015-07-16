@@ -7,6 +7,7 @@ var compile = require('./message');
 var utils = require('./utils');
 
 var isString = utils.isString;
+var isArray = utils.isArray;
 var extend = utils.extend;
 
 var returnNoop = function () {
@@ -62,23 +63,30 @@ function generateTernaryDebug(wrappedDebug) {
 
 function generateWrappedDebug(debugFn, initOptions) {
   function wrappedDebug(rawMessage, onCallOptions) {
-    onCallOptions = onCallOptions || {};
-    if (typeof rawMessage === 'undefined') {
+    onCallOptions = extend({}, onCallOptions || {});
+    if (rawMessage == undefined) {
       onCallOptions.stringifyObjects = true;
     }
 
-    var options = extend(initOptions, onCallOptions);
-    var compiledMessage = compile(rawMessage, {
-      emojify: options.emojify,
-      colorify: options.colorify
+    var newInitOptions = extend({}, initOptions);
+    var options = extend(newInitOptions, onCallOptions);
+
+    var rawMessages = isArray(rawMessage) ? rawMessage : [rawMessage];
+    var compiledMessages = rawMessages.map(function (rm) {
+      return compile(rm, {
+        emojify: options.emojify,
+        colorify: options.colorify
+      });
     });
 
     return function wrappedDebugOnObject(object) {
-      var message = compiledMessage.resolve(object, {
-        stringifyObjects: options.stringifyObjects,
-        stringifyObjectsSeparator: options.stringifyObjectsSeparator
+      compiledMessages.forEach(function (cm) {
+        var message = cm.resolve(object, {
+          stringifyObjects: options.stringifyObjects,
+          stringifyObjectsSeparator: options.stringifyObjectsSeparator
+        });
+        debugFn(message);
       });
-      debugFn(message);
     };
   }
   wrappedDebug.__wrapped = true;
