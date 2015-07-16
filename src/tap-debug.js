@@ -1,14 +1,17 @@
 'use strict';
+/* eslint no-underscore-dangle: 0 */
 
 var debug = require('./debug');
 var compile = require('./message');
 
 var utils = require('./utils');
 
+var identity = utils.identity;
 var isString = utils.isString;
 var extend = utils.extend;
 
 var DEFAULT_LOG = console.log.bind(console);
+DEFAULT_LOG.enabled = true;
 
 function tap(interceptor) {
   return function _tap(object) {
@@ -17,46 +20,111 @@ function tap(interceptor) {
   };
 }
 
-function onObject(debugFn, rawMessage, options) {
-  var compiledMessage = compile(rawMessage, {
-    emojify: options.emojify,
-    colorify: options.colorify
-  });
-  return function _onObject(object) {
-    var message = compiledMessage.resolve(object, {
-      stringifyObjects: options.stringifyObjects,
-      stringifyObjectsSeparator: options.stringifyObjectsSeparator
-    });
-    debugFn(message);
+function generateTapDebug(wrappedDebug) {
+  return function tapDebug(message, onCallOptions) {
+    return tap(wrappedDebug(message, onCallOptions));
   };
 }
 
-function debugObjects(debugFn, options) {
-  return function _debugObjects(message, onCallOptions) {
+function generateTapIfElseDebug(wrappedDebug) {
+  return function ifElseDebug(predicate, ifMessage, elseMessage, onCallOptions) {
+    return tap(function ifElseOnObject(object) {
+      if (predicate(object)) {
+        wrappedDebug(ifMessage, onCallOptions)(object);
+      } else {
+        wrappedDebug(elseMessage, onCallOptions)(object);
+      }
+    });
+  };
+}
+
+function generateTapSwitchCaseDebug(wrappedDebug) {
+  return function switchCaseDebug(predicate, caseMessages, onCallOptions) {
+    caseMessages = caseMessages || {};
+    return tap(function switchCaseOnObject(object) {
+      // TODO: With a default and some cases.
+      var generatedCase = predicate(object);
+      var message = caseMessages[generatedCase];
+      if (typeof message !== 'undefined') {
+        wrappedDebug(message, onCallOptions)(object);
+      }
+    });
+  };
+}
+
+function generateTernaryDebug(wrappedDebug) {
+  return function ternaryWrappedDebug(rawMessage, object, options) {
+    wrappedDebug(rawMessage, options)(object);
+  };
+}
+
+function generateWrappedDebug(debugFn, initOptions) {
+  function wrappedDebug(rawMessage, onCallOptions) {
     onCallOptions = onCallOptions || {};
-    if (typeof message === 'undefined') {
+    if (typeof rawMessage === 'undefined') {
       onCallOptions.stringifyObjects = true;
     }
-    return tap(onObject(debugFn, message, extend(options, onCallOptions)));
-  };
+
+    var options = extend(initOptions, onCallOptions);
+    var compiledMessage = compile(rawMessage, {
+      emojify: options.emojify,
+      colorify: options.colorify
+    });
+
+    return function wrappedDebugOnObject(object) {
+      var message = compiledMessage.resolve(object, {
+        stringifyObjects: options.stringifyObjects,
+        stringifyObjectsSeparator: options.stringifyObjectsSeparator
+      });
+      debugFn(message);
+    };
+  }
+  wrappedDebug.__wrapped = true;
+
+  return wrappedDebug;
 }
 
-function generateTapDebug(debugFn, options) {
-  options = options || {};
+function wrapDebug(debugFn, initOptions) {
+  var wrappedDebug = identity;
+  if (debugFn.enabled !== false) {
+    wrappedDebug = generateWrappedDebug(debugFn, initOptions);
+  }
 
+  return wrappedDebug;
+}
+
+function initDefaultDebug(debugFn) {
+  var defaultDebug;
   if (isString(debugFn)) {
     if (debug !== false) {
       var namespace = debugFn;
-      debugFn = debug(namespace);
+      defaultDebug = debug(namespace);
     } else {
-      debugFn = DEFAULT_LOG;
+      defaultDebug = DEFAULT_LOG;
     }
   } else {
-    debugFn = debugFn || DEFAULT_LOG;
+    defaultDebug = debugFn || DEFAULT_LOG;
   }
 
-  var tapDebug = debugObjects(debugFn, options);
+  return defaultDebug;
+}
+
+function init(debugFn, initOptions) {
+  initOptions = initOptions || {};
+
+  var defaultDebug = initDefaultDebug(debugFn);
+  var wrappedDebug = wrapDebug(defaultDebug, initOptions);
+
+  var tapDebug = generateTapDebug(wrappedDebug);
+  var ternaryDebug = generateTernaryDebug(wrappedDebug);
+  var ifElse = generateTapIfElseDebug(wrappedDebug);
+  var switchCase = generateTapSwitchCaseDebug(wrappedDebug);
+
+  tapDebug.debug = ternaryDebug;
+  tapDebug.ifElse = ifElse;
+  tapDebug.switchCase = switchCase;
+
   return tapDebug;
 }
 
-module.exports = generateTapDebug;
+module.exports = init;
