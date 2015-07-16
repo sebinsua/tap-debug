@@ -22,8 +22,8 @@ function createGetVariablesRegex(variables) {
   }).join('|') + ')', 'g');
 }
 
-function createGetPluralsRegex(plurals) {
-  return new RegExp('(' + plurals.join('|') + ')', 'g');
+function createGetWordsRegex(words) {
+  return new RegExp('(' + words.join('|') + ')', 'g');
 }
 
 function getColors(variables) {
@@ -62,16 +62,21 @@ function colorify(str) {
       var variableName = variable.substring(2, variable.length - 1);
       return colorifier(variable, variableColors[variableName]);
     };
-    var replacePlural = function (plural) {
-      return colorifier(plural);
+    var replaceWord = function (word) {
+      return colorifier(word);
     };
+
+    // Note: if we do this then the plurals will not match.
+    // var singulars = variables;
+    // var GET_SINGULARS_REGEX = createGetWordsRegex(singulars);
+    // str = str.replace(GET_SINGULARS_REGEX, replaceWord);
+
+    var plurals = variables.map(pluralize.plural);
+    var GET_PLURALS_REGEX = createGetWordsRegex(plurals);
+    str = str.replace(GET_PLURALS_REGEX, replaceWord);
 
     var GET_VARIABLES_REGEX = createGetVariablesRegex(variables);
     str = str.replace(GET_VARIABLES_REGEX, replaceVariable);
-
-    var plurals = variables.map(pluralize.plural);
-    var GET_PLURALS_REGEX = createGetPluralsRegex(plurals);
-    str = str.replace(GET_PLURALS_REGEX, replacePlural);
   }
 
   return str;

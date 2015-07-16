@@ -6,9 +6,12 @@ var compile = require('./message');
 
 var utils = require('./utils');
 
-var identity = utils.identity;
 var isString = utils.isString;
 var extend = utils.extend;
+
+var returnNoop = function () {
+  return function noop() {};
+};
 
 var DEFAULT_LOG = console.log.bind(console);
 DEFAULT_LOG.enabled = true;
@@ -42,7 +45,6 @@ function generateTapSwitchCaseDebug(wrappedDebug) {
   return function switchCaseDebug(predicate, caseMessages, onCallOptions) {
     caseMessages = caseMessages || {};
     return tap(function switchCaseOnObject(object) {
-      // TODO: With a default and some cases.
       var generatedCase = predicate(object);
       var message = caseMessages[generatedCase];
       if (typeof message !== 'undefined') {
@@ -85,7 +87,7 @@ function generateWrappedDebug(debugFn, initOptions) {
 }
 
 function wrapDebug(debugFn, initOptions) {
-  var wrappedDebug = identity;
+  var wrappedDebug = returnNoop;
   if (debugFn.enabled !== false) {
     wrappedDebug = generateWrappedDebug(debugFn, initOptions);
   }
