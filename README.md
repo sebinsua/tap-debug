@@ -1,8 +1,6 @@
 # tap-debug [![Build Status](https://travis-ci.org/sebinsua/tap-debug.png)](https://travis-ci.org/sebinsua/tap-debug) [![npm version](https://badge.fury.io/js/tap-debug.svg)](https://www.npmjs.com/package/tap-debug)
 > :beer: Debug on tap.
-
 ![Example](http://i.imgur.com/WkG5T1N.png)
-
 ```javascript
 'use strict';
 
