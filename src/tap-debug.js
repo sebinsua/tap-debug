@@ -64,7 +64,7 @@ function generateTernaryDebug(wrappedDebug) {
 function generateWrappedDebug(debugFn, initOptions) {
   function wrappedDebug(rawMessage, onCallOptions) {
     onCallOptions = extend({}, onCallOptions || {});
-    if (rawMessage == undefined) {
+    if (!rawMessage) {
       onCallOptions.stringifyObjects = true;
     }
 
