@@ -1,6 +1,8 @@
 # tap-debug [![Build Status](https://travis-ci.org/sebinsua/tap-debug.png)](https://travis-ci.org/sebinsua/tap-debug) [![npm version](https://badge.fury.io/js/tap-debug.svg)](https://www.npmjs.com/package/tap-debug)
 > :beer: Debug on tap.
 
+See these [examples](https://github.com/sebinsua/tap-debug/blob/master/examples.js) for usage instructions.
+
 ```javascript
 'use strict';
 
@@ -21,8 +23,6 @@ function checkIceboxForPlums() {
 ```
 
 ![Example](http://i.imgur.com/WkG5T1N.png)
-
-See these [examples](https://github.com/sebinsua/tap-debug/blob/master/examples.js) for further usage instructions.
 
 ## `require('tap-debug')(debugFn, options)`
 
