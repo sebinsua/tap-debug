@@ -1,7 +1,16 @@
 # tap-debug [![Build Status](https://travis-ci.org/sebinsua/tap-debug.png)](https://travis-ci.org/sebinsua/tap-debug) [![npm version](https://badge.fury.io/js/tap-debug.svg)](https://www.npmjs.com/package/tap-debug)
 > :beer: Debug on tap.
 
-See these [examples](https://github.com/sebinsua/tap-debug/blob/master/examples.js) for usage instructions.
+## Why?
+
+- [x] Plays nicely with the `tap()` method of your promises and functional pipelines.
+- [x] [ES6-style variable interpolation](https://github.com/medikoo/es6-template-strings) built in.
+- [x] Colored output makes it easy to spot variables and their values. 
+- [x] :v::ok_hand::heart_eyes: Emojis :raised_hands::fire::star2:
+
+## Example
+
+![Example](http://i.imgur.com/WkG5T1N.png)
 
 ```javascript
 'use strict';
@@ -22,14 +31,58 @@ function checkIceboxForPlums() {
 }
 ```
 
-![Example](http://i.imgur.com/WkG5T1N.png)
+See these [examples](https://github.com/sebinsua/tap-debug/blob/master/examples.js) for further usage instructions.
 
-## `require('tap-debug')(debugFn, options)`
+## API
 
-### `tapDebug(message[, options])(object)`
+### `require('tap-debug')(debugFn, options)`
 
-#### `.debug(message[, object, options])`
+Takes a `debugFn` such as [visionmedia/debug](https://github.com/visionmedia/debug) and a configuration `options` object.
 
-#### `.ifElse(predicate, ifMessage, elseMessage[, options])(object)`
+```javascript
+{
+  stringifyObjects: false,
+  stringifyObjectsFormatter: 'inspect',
+  emojify: true,
+  colorify: true
+}
+```
 
-#### `.switchCase(getCase, caseMessages[, options])(object)`
+#### `tapDebug(message[, options])(object)`
+
+A curried `tap()`able version of the debugger.
+
+*See above for a working example.*
+
+##### `.debug(message[, object, options])`
+
+A ternary version of the curried `tap()`able version of the debugger.
+
+```javascript
+var see = require('tap-debug')();
+see.debug('hello there');
+```
+
+##### `.ifElse(predicate, ifMessage, elseMessage[, options])(object)`
+
+A curried `tap()`able version of the debugger, which will switch its message depending on whether the `predicate` function supplied returns `true` or `false` on being called with the `object`.
+
+```javascript
+var see = require('tap-debug')();
+// ...
+promise.tap(see.ifElse(isNull, 'This promise was null', 'This promise was not null.'));
+```
+
+##### `.switchCase(getCase, caseMessages[, options])(object)`
+
+A curried `tap()`able version of the debugger, which can switch its message depending on whether the `getCase` function supplied returns a key which matches a message in `caseMessages` on being called with the `object`.
+
+```javascript
+var see = require('tap-debug')();
+// ...
+promise.tap(see.switchCase(getCase, {
+  'case-one': 'This is the first message.',
+  'case-two': 'This is the second message.',
+  'default': 'This is the default message.'
+}));
+```
