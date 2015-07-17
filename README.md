@@ -30,6 +30,6 @@ function checkIceboxForPlums() {
 
 #### `.debug(message[, object, options])`
 
-#### `.ifElse(predicate, ifMessage, elseMessage[, options])`
+#### `.ifElse(predicate, ifMessage, elseMessage[, options])(object)`
 
-#### `.switchCase(getCase, caseMessages[, options])`
+#### `.switchCase(getCase, caseMessages[, options])(object)`
