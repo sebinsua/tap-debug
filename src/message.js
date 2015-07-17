@@ -1,3 +1,5 @@
+/* eslint no-underscore-dangle: 0 */
+
 'use strict';
 
 var compile = require('es6-template-strings/compile'),
@@ -36,7 +38,7 @@ CompiledMessage.prototype.resolve = function (object, options) {
   options = options || {};
 
   var messageComponents = [];
-  
+
   var defaultContext = options.ctx || {};
   var isRealObject = isObject(object) && !isArray(object);
   var context = extend(isRealObject ? object : {}, defaultContext);
