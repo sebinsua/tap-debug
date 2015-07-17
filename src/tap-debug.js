@@ -43,11 +43,15 @@ function generateTapIfElseDebug(wrappedDebug) {
 }
 
 function generateTapSwitchCaseDebug(wrappedDebug) {
+  var DEFAULT_CASE = 'default';
   return function switchCaseDebug(predicate, caseMessages, onCallOptions) {
     caseMessages = caseMessages || {};
     return tap(function switchCaseOnObject(object) {
       var generatedCase = predicate(object);
       var message = caseMessages[generatedCase];
+      if (typeof message === 'undefined') {
+        message = caseMessages[DEFAULT_CASE];
+      }
       if (typeof message !== 'undefined') {
         wrappedDebug(message, onCallOptions)(object);
       }
