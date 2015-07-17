@@ -38,7 +38,7 @@ CompiledMessage.prototype.resolve = function (object, options) {
 
   var context = extend(isArray(object) ? {} : object, options.ctx || {});
 
-  var compiledMessage = this.compiledMessage;  
+  var compiledMessage = this.compiledMessage;
   var resolvedMessage = resolve(compiledMessage, context);
   if (resolvedMessage !== '') {
     messageComponents.push(resolvedMessage);
