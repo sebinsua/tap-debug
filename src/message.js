@@ -45,8 +45,8 @@ CompiledMessage.prototype.resolve = function (object, options) {
   }
 
   if (options.stringifyObjects === true) {
-    var objectString = stringify(object, options);
-    messageComponents.push(objectString);
+    var contextString = stringify(context, options);
+    messageComponents.push(contextString);
   }
 
   return messageComponents.
