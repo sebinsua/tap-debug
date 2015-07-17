@@ -4,6 +4,10 @@ function isString(object) {
   return typeof object === 'string';
 }
 
+function isObject(object) {
+  return typeof object === 'object';
+}
+
 function identity(object) {
   return !!object;
 }
@@ -22,6 +26,7 @@ function extend(destination, source) {
 }
 
 module.exports.isString = isString;
+module.exports.isObject = isObject;
 module.exports.isArray = Array.isArray;
 module.exports.identity = identity;
 module.exports.extend = extend;
