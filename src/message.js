@@ -5,6 +5,7 @@ var compile = require('es6-template-strings/compile'),
 
 var utils = require('./utils');
 var isArray = utils.isArray;
+var isObject = utils.isObject;
 var identity = utils.identity;
 var extend = utils.extend;
 
@@ -35,8 +36,11 @@ CompiledMessage.prototype.resolve = function (object, options) {
   options = options || {};
 
   var messageComponents = [];
-
-  var context = extend(isArray(object) ? {} : object, options.ctx || {});
+  
+  var defaultContext = options.ctx || {};
+  var isRealObject = isObject(object) && !isArray(object);
+  var context = extend(isRealObject ? object : {}, defaultContext);
+  context.__object = stringify(object);
 
   var compiledMessage = this.compiledMessage;
   var resolvedMessage = resolve(compiledMessage, context);
