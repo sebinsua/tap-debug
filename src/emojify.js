@@ -12,7 +12,7 @@ var EMOJI_REGEX = /(:[a-z_]+:)/g;
 var SPACE = ' ';
 
 function emojify(str) {
-  if (str && emojis !== false) {
+  if (str && str.length && emojis !== false) {
     var emojifier = emojis.get.bind(emojis);
     var replacer = function (k) {
       return emojifier(k) + SPACE;
