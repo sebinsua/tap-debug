@@ -51,7 +51,9 @@ CompiledMessage.prototype.resolve = function (object, options) {
   }
 
   if (options.stringifyObjects === true) {
-    var contextString = stringify(context, options);
+    var objectToStringify = extend({}, context);
+    delete objectToStringify.__object;
+    var contextString = stringify(objectToStringify, options);
     messageComponents.push(contextString);
   }
 
