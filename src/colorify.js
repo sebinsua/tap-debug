@@ -43,7 +43,7 @@ function colorify(str) {
     var variables = [];
     var matches;
     while ((matches = GET_VARIABLE_NAMES_REGEX.exec(str)) !== null) {
-      if (matches[1]) {
+      if (matches[1] && matches[1] !== '__object') {
         variables.push(matches[1]);
       }
     }
