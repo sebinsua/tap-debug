@@ -41,8 +41,9 @@ CompiledMessage.prototype.resolve = function (object, options) {
 
   var defaultContext = options.ctx || {};
   var isRealObject = isObject(object) && !isArray(object);
-  var context = extend(isRealObject ? object : {}, defaultContext);
-  context.__object = stringify(object);
+  var obj = extend({}, isRealObject ? object : {});
+  var context = extend(obj, defaultContext);
+  context.__object = stringify(obj);
 
   var compiledMessage = this.compiledMessage;
   var resolvedMessage = resolve(compiledMessage, context);
