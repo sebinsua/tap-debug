@@ -39,7 +39,7 @@ function getColors(variables) {
 }
 
 function colorify(str) {
-  if (str && colors !== false) {
+  if (str && str.length && colors !== false) {
     var variables = [];
     var matches;
     while ((matches = GET_VARIABLE_NAMES_REGEX.exec(str)) !== null) {
