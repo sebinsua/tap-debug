@@ -3,6 +3,8 @@
 
 ## Why?
 
+Helps afford the creation of [data-driven, narrative user journeys, aka. log level 'human'](https://twitter.com/sebinsua/status/545330195075715072).
+
 - [x] Plays nicely with the `tap()` method of your promises and functional pipelines.
 - [x] [ES6-style variable interpolation](https://github.com/medikoo/es6-template-strings) built in.
 - [x] Colored output makes it easy to spot variables and their values. 
