@@ -47,7 +47,13 @@ CompiledMessage.prototype.resolve = function (value, options) {
   context.__object = stringify(object);
 
   var compiledMessage = this.compiledMessage;
-  var resolvedMessage = resolve(compiledMessage, context);
+  var resolvedMessage;
+  try {
+    resolvedMessage = resolve(compiledMessage, context);
+  } catch (err) {
+    resolvedMessage = 'Invalid resolution of log message: "' + compiledMessage.literals.join('') + '"' +
+                      ' due to one of the substitutions: ' + stringify(compiledMessage.substitutions);
+  }
   if (resolvedMessage !== '') {
     messageComponents.push(resolvedMessage);
   }
