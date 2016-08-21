@@ -23,7 +23,7 @@ function stringify(object, options) {
   if (isString(object)) {
     objectString = object;
   } else {
-    objectString = options.stringifyObjectsFormatter === 'json' ? jsonify(object) : inspect(object);
+    objectString = options.stringifyValueFormatter === 'json' ? jsonify(object) : inspect(object);
   }
 
   return objectString;

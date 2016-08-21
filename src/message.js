@@ -34,16 +34,17 @@ CompiledMessage.prototype.compile = function (message, options) {
   return compile(message);
 };
 
-CompiledMessage.prototype.resolve = function (object, options) {
+CompiledMessage.prototype.resolve = function (value, options) {
   options = options || {};
 
   var messageComponents = [];
 
   var defaultContext = options.ctx || {};
-  var isRealObject = isObject(object) && !isArray(object);
-  var obj = extend({}, isRealObject ? object : {});
-  var context = extend(obj, defaultContext);
-  context.__object = stringify(obj);
+  var isRealObject = isObject(value) && !isArray(value);
+  var object = isRealObject ? extend({}, value) : {};
+  var context = extend(object, defaultContext);
+  context.__value = stringify(value)
+  context.__object = stringify(object);
 
   var compiledMessage = this.compiledMessage;
   var resolvedMessage = resolve(compiledMessage, context);
@@ -51,16 +52,14 @@ CompiledMessage.prototype.resolve = function (object, options) {
     messageComponents.push(resolvedMessage);
   }
 
-  if (options.stringifyObjects === true) {
-    var objectToStringify = extend({}, context);
-    delete objectToStringify.__object;
-    var contextString = stringify(objectToStringify, options);
+  if (options.stringifyValue === true) {
+    var contextString = stringify(value, options);
     messageComponents.push(contextString);
   }
 
   return messageComponents.
          filter(identity).
-         join(options.stringifyObjectsSeparator || DEFAULT_SEPARATOR);
+         join(options.stringifyValueSeparator || DEFAULT_SEPARATOR);
 };
 
 module.exports = function compileMessage(message, options) {

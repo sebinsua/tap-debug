@@ -7,6 +7,7 @@ var Promise = require('bluebird'),
 
 var debug = require('debug')('icebox:checker');
 var see = require('.')(debug);
+var seeBasicConsole = require('./see')
 
 var checkIcebox = function () {
   return Promise.resolve({
@@ -66,3 +67,7 @@ function checkIceboxForOranges() {
 
 checkIceboxForPlums().then(shall(checkIceboxForApples)).
                       then(shall(checkIceboxForOranges));
+
+seeBasicConsole('print the object passed in')({ what: 'null' })
+seeBasicConsole('print the number passed in')(12)
+seeBasicConsole('print the string passed in')('holy moly')

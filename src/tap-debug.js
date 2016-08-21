@@ -69,7 +69,7 @@ function generateWrappedDebug(debugFn, initOptions) {
   function wrappedDebug(rawMessage, onCallOptions) {
     onCallOptions = extend({}, onCallOptions || {});
     if (!rawMessage) {
-      onCallOptions.stringifyObjects = true;
+      onCallOptions.stringifyValue = true;
     }
 
     var newInitOptions = extend({}, initOptions);
@@ -86,8 +86,8 @@ function generateWrappedDebug(debugFn, initOptions) {
     return function wrappedDebugOnObject(object) {
       compiledMessages.forEach(function (cm) {
         var message = cm.resolve(object, {
-          stringifyObjects: options.stringifyObjects,
-          stringifyObjectsSeparator: options.stringifyObjectsSeparator
+          stringifyValue: options.stringifyValue,
+          stringifyValueSeparator: options.stringifyValueSeparator
         });
         debugFn(message);
       });

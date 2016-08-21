@@ -5,9 +5,9 @@
 
 Helps afford the creation of [data-driven, narrative user journeys, aka. log level 'human'](https://twitter.com/sebinsua/status/545330195075715072).
 
-- [x] Plays nicely with the `tap()` method of your promises and functional pipelines.
+- [x] Plays nicely with the `then()` and `tap()` methods of your promises as well as functional pipelines.
 - [x] [ES6-style variable interpolation](https://github.com/medikoo/es6-template-strings) built in.
-- [x] Colored output makes it easy to spot variables and their values. 
+- [x] Colored output makes it easy to spot variables and their values.
 - [x] :v::ok_hand::heart_eyes: Emojis :raised_hands::fire::star2:
 
 ## Example
@@ -43,8 +43,9 @@ Takes a `debugFn` such as [visionmedia/debug](https://github.com/visionmedia/deb
 
 ```javascript
 {
-  stringifyObjects: false,
-  stringifyObjectsFormatter: 'inspect',
+  stringifyValue: false,
+  stringifyValueSeparator: ': ',
+  stringifyValueFormatter: 'inspect',
   emojify: true,
   colorify: true
 }

@@ -66,7 +66,7 @@ describe('tap-debug module', function () {
       });
 
       it('should be able to enable stringification and log some data prefixed by a message', function () {
-        var enabledStringify = generateTapDebug(spy, { stringifyObjects: true });
+        var enabledStringify = generateTapDebug(spy, { stringifyValue: true });
 
         var prefixMessage = 'the-prefix-message';
         var obj = {
@@ -99,7 +99,7 @@ describe('tap-debug module', function () {
       });
 
       it('should be able to enable stringification and log some data prefixed by a message and separator', function () {
-        var enabledStringify = generateTapDebug(spy, { stringifyObjects: true });
+        var enabledStringify = generateTapDebug(spy, { stringifyValue: true });
 
         var prefixMessage = 'the-prefix-message';
         var separator = ' - ';
@@ -110,7 +110,7 @@ describe('tap-debug module', function () {
         };
         var newObj = extend({}, obj);
 
-        var see = enabledStringify(prefixMessage, { stringifyObjectsSeparator: separator });
+        var see = enabledStringify(prefixMessage, { stringifyValueSeparator: separator });
         see(obj);
 
         spy.should.have.been.calledWith(prefixMessage + separator + stringify(newObj));
